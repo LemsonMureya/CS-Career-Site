@@ -13,7 +13,7 @@
     <meta name="description" content="Campus - University and Education Template" />
 
     <!-- title  -->
-    <title>Campus - University and Education Template</title>
+    <title>CS Camels Career Hour</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="{% static 'img/logos/favicon.png' %}" />
@@ -91,26 +91,30 @@
                                             </ul>
                                         </li>
                                         <li><a href="about.html">About Us</a></li>
-                                        <li><a href="#">Courses</a>
+                                        <li><a href="#">Resources</a>
                                             <ul>
-                                                <li><a href="courses-grid.html">Courses Grid</a></li>
-                                                <li><a href="course-details.html">Course Details</a></li>
+                                                <li><a href="courses-grid.html">Technical Interview Prep</a></li>
+                                                <li><a href="course-details.html">Behavioral Interview Prep</a></li>
+                                                  <li><a href="course-details.html">Graduate School Prep</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="#">Events</a>
+                                        <li><a href="#">Opportunities</a>
                                             <ul>
-                                                <li><a href="event.html">Events</a></li>
-                                                <li><a href="event-details.html">Event Details</a></li>
+                                                <li><a href="event.html">Jobs</a></li>
+                                                <li><a href="event-details.html">Internships</a></li>
+                                                <li><a href="event.html">Research</a></li>
+                                                <li><a href="event.html">Volunteering</a></li>
+                                                <li><a href="event.html">Other</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="#">Pages</a>
                                             <ul>
-                                                <li><a href="gallery.html">Gallery</a></li>
-                                                <li><a href="teachers.html">Teachers</a></li>
-                                                <li><a href="teacher-details.html">Teacher Details</a></li>
-                                                <li><a href="faq.html">FAQ</a></li>
-                                                <li><a href="login.html">Login</a></li>
-                                                <li><a href="registration.html">Register</a></li>
+                                                <li><a href="gallery.html">Project Gallery</a></li>
+                                                <li><a href="{% url 'blogApp:event_list' %}">Events</a></li>
+                                                <li><a href="teacher-details.html">Alumni</a></li>
+                                                <li><a href="faq.html">Newsletters</a></li>
+                                                <li><a href="#">Login</a></li>
+                                                <li><a href="#">Register</a></li>
                                                 <li><a href="#">Others</a>
                                                     <ul>
                                                         <li><a href="tables.html">Tables</a></li>
@@ -156,7 +160,7 @@
                     <div class="text-center item bg-img" data-overlay-dark="6" data-background="{% static 'img/slider/slide1.jpg' %}">
                         <div class="display-table height-100 position-relative caption">
                             <div class="display-table-cell vertical-align-middle">
-                                <h1 class="text-white">The Best University</h1>
+                                <h1 class="text-white">CS Camels Career Hour</h1>
                                 <p class="text-white margin-40px-bottom md-margin-30px-bottom xs-margin-25px-bottom center-col">Many colleges and universities have designated mottos that represent the culture of that institution identify themselves in a few words.</p>
                                 <a href="javascript:void(0);" class="butn theme">
                                     <span class="alt-font">Learn More</span><i class="fas fa-long-arrow-alt-right font-size16 sm-font-size14 margin-10px-left"></i>
@@ -199,12 +203,7 @@
                     <div class="col-12">
                         <div class="owl-carousel owl-theme">
 
-                            <div class="step bg-blue">
-                                <a href="#" class="text-center">
-                                    <i class="ti-eraser"></i>
-                                    <h4 class="step-title">Accounting & Finance</h4>
-                                </a>
-                            </div>
+
                             <div class="step bg-sky">
                                 <a href="#" class="text-center">
                                     <i class="ti-cloud-down"></i>
