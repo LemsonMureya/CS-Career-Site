@@ -1,13 +1,104 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-        <!-- event_detail.html -->
-    <h1>{{ event.title }}</h1>
-    <p>{{ event.description }}</p>
-    <!-- other event details... -->
-  </body>
-</html>
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% load static%}
+
+{% block content %}
+<!-- start page title section -->
+<section class="page-title-section bg-img cover-background" data-overlay-dark="7" data-background="{%static 'img/bg/codee.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Event Details</h1>
+            </div>
+            <div class="col-md-12">
+                <ul>
+                    <li><a href="{% url 'blogApp:index' %}">Home</a></li>
+                    <li><a href="{% url 'blogApp:event_list' %}">Events</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end page title section -->
+<section style="background-color: #eee;">
+    <div class="container">
+            <div class="row">
+                <!--  start event left-->
+                <div class="col-lg-9 col-md-12 sm-margin-40px-bottom">
+                    <div class="padding-30px-right md-padding-30px-right sm-no-padding-right">
+                        <h2 class="margin-30px-bottom sm-margin-20px-bottom xs-margin-15px-bottom font-weight-500">{{event.title}}</h2>
+                        <div class="row margin-40px-bottom xs-margin-30px-bottom">
+                            <div class="col-md-3 col-sm-6 xs-margin-15px-bottom border-right sm-no-border-right">
+                                <div class="padding-20px-lr md-no-padding-lr">
+                                    <h5 class="font-size15 margin-5px-bottom">Start Time:</h5>
+                                    <p class="no-margin-bottom"><i class="fas fa-calendar-alt padding-5px-right text-hightlight-color"></i> {{ event.datetime|date:"F j, Y" }}</p>
+                                    <p class="no-margin-bottom"><i class="far fa-clock padding-5px-right text-hightlight-color"></i> {{ event.datetime|date:"H" }}:{{ event.datetime|date:"i" }} </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 xs-margin-15px-bottom border-right sm-no-border-right">
+                                <div class="padding-20px-lr md-no-padding-lr">
+                                    <h5 class="font-size15 margin-5px-bottom">End Time:</h5>
+                                    <p class="no-margin-bottom"><i class="fas fa-calendar-alt padding-5px-right text-hightlight-color"></i> {{ event.datetime|date:"F j, Y" }}</p>
+                                    <p class="no-margin-bottom"><i class="far fa-clock padding-5px-right text-hightlight-color"></i> {{ event.datetime|date:"H" }}:{{ event.datetime|date:"i" }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 mobile-margin-15px-bottom border-right sm-no-border-right">
+                                <div class="padding-20px-lr md-no-padding-lr">
+                                    <h5 class="font-size15 margin-5px-bottom">Location:</h5>
+                                    <p class="no-margin-bottom">{{ event.location }}.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 mobile-margin-15px-bottom border-right sm-no-border-right">
+                                <div class="padding-20px-lr md-no-padding-lr">
+                                    <h5 class="font-size15 margin-5px-bottom">Link:</h5>
+                                    <p class="no-margin-bottom">{{ event.link|truncatechars:15 }}.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="margin-30px-bottom sm-margin-30px-bottom">
+                            <div class="event-img">
+                                <img src="{{ event.photo.url }}" alt="Event">
+                            </div>
+                        </div>
+                        <h4 class="margin-15px-bottom font-weight-500">Event Details</h4>
+                        <p>{{ event.description }}
+                        </p>
+                    </div>
+                </div>
+                <!--  end event left-->
+
+                 <!-- start event right -->
+                 <div class="col-lg-3 col-md-12">
+                 <div class="side-bar">
+                     <div class="widget search" style="border: 1px solid #dee2e6;">
+                         <form method='post'>
+                             <input type="hidden" name="form-name" value="form 1" />
+                             <input type="search" name="search" placeholder="Type here ...">
+                             <button type="submit" class="butn theme"><i class="fa fa-search" aria-hidden="true"></i></button>
+                         </form>
+                     </div>
+                         {% show_other_events event.id %}
+                         {% if other_events %}
+                         {% for event in other_events %}
+                         <div class="single-post margin-25px-bottom">
+                             <div class="recent_img">
+                                 {% if event.photo %}
+                                 <a href="{% url 'blogApp:event_detail' slug=event.slug %}"><img src="{{ event.photo.url }}" alt="{{ event.title }}" /></a>
+                                 {% endif %}
+                             </div>
+                             <div class="post_title">
+                                 <a href="{% url 'blogApp:event_detail' slug=event.slug %}">{{ event.title.capitalize }}</a>
+                                 <p class="margin-5px-top font-size13 no-margin-bottom">
+                                     <i class="fas fa-calendar-alt text-hightlight-color padding-10px-right"></i>{{ event.start_date|date:"jS F Y" }}
+                                 </p>
+                             </div>
+                         </div>
+                         {% endfor %}
+                         {% endif %}
+                 </div>
+             </div>
+             <!-- end event right -->
+          </div>
+      </div>
+  </section>
+{% endblock %}

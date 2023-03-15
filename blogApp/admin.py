@@ -1,8 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Opportunity, Event, Project, Resource
+from .models import CustomUser, Opportunity, Event, Project, Resource
 from django.utils.text import slugify
-
 
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = ('email', 'first_name', 'last_name', 'role')
@@ -17,8 +16,8 @@ class OpportunityAdmin(admin.ModelAdmin):
     ordering = ('-created_date',)
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('title', 'owner', 'event_type', 'datetime')
-    list_filter = ('event_type', 'datetime')
+    list_display = ('title', 'owner', 'event_type', 'datetime') #display rows
+    list_filter = ('event_type', 'datetime') #filter by this
     search_fields = ('title', 'description')
     ordering = ('datetime',)
 
@@ -41,7 +40,7 @@ class ProjectAdmin(admin.ModelAdmin):
     ordering = ('title',)
 
 admin.site.register(Event, EventAdmin)
-admin.site.register(User, CustomUserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Opportunity, OpportunityAdmin)
 admin.site.register(Resource, ResourceAdmin)
 admin.site.register(Project, ProjectAdmin)

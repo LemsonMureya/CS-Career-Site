@@ -1,0 +1,20 @@
+<div class="widget" style="border: 1px solid #dee2e6;">
+    <div class="widget-title">
+        <h6>Other Events</h6>
+    </div>
+    {% for event in events %}
+    <div class="single-post margin-25px-bottom">
+        <div class="recent_img">
+            <a href="{% url 'blogApp:event_detail' slug=event.slug %}" title="">
+                <img src="{{ event.photo.url }}" alt="{{ event.title }}" />
+            </a>
+        </div>
+        <div class="post_title">
+            <a href="{% url 'blogApp:event_detail' slug=event.slug %}">{{ event.title|truncatewords:4 }}</a>
+            <p class="margin-5px-top font-size13 no-margin-bottom">
+                <i class="fas fa-calendar-alt text-hightlight-color padding-10px-right"></i>{{ event.datetime|date:"d M" }}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>

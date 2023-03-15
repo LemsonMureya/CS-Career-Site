@@ -1,15 +1,41 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <h2>Login</h2>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Login</button>
-    </form>
-  </body>
-</html>
+{% extends 'base.html' %}
+{% load static%}
+
+{% block content %}
+<section class="page-title-section bg-img cover-background" data-overlay-dark="7" data-background= "{% static 'img/bg/page-title.jpg' %}">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Login</h1>
+        </div>
+        <div class="col-md-12">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="javascript:void(0)">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</section>
+<!-- end page title section -->
+
+<!-- start login section -->
+<section style="background-color: #eee;">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-12 ml-auto mr-auto">
+            <div class="common-block padding-40px-all sm-padding-30px-all xs-padding-25px-all">
+                <h4 class="no-margin-bottom text-center font-weight-500">Welcome Back</h4>
+                <div class="title-border"><span class="lg"></span><span class="md"></span><span class="sm"></span></div>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="butn theme margin-20px-top"><span class="alt-font">Login <i class="fas fa-long-arrow-alt-right margin-10px-left"></i></span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+{% endblock %}

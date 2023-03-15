@@ -1,24 +1,69 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-  <form method="get">
-      <label for="category">Filter by category:</label>
-        <select name="category" id="category">
-          <option value="">All categories</option>
-          {% for choice in category_choices %}
-          <option value="{{ choice.0 }}" {% if choice.0 == selected_category %}selected{% endif %}>{{ choice.1 }}</option>
-          {% endfor %}
-        </select>
-        <button type="submit">Filter</button>
-    </form>
+{% extends 'base.html' %}
+{% load static %}
 
-    <!-- event_list.html -->
-    {% for event in events %}
-        <a href="{% url 'blogApp:event_detail' slug=event.slug %}">{{ event.title }}</a>
+{% block content %}
+<!-- start page title section -->
+
+<section class="page-title-section bg-img cover-background" data-overlay-dark="7" data-background="{%static 'img/bg/prof1.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Events</h1>
+            </div>
+            <div class="col-md-12">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="javascript:void(0)">Events</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end page title section -->
+  <section style="background-color: #eee;">
+        <div class="container">
+          <form method="get">
+          <label for="category">Filter by category:</label>
+            <select name="category" id="category">
+              <option value="">All categories</option>
+              {% for choice in category_choices %}
+              <option value="{{ choice.0 }}" {% if choice.0 == selected_category %}selected{% endif %}>{{ choice.1 }}</option>
+              {% endfor %}
+            </select>
+            <button class="butn small margin-10px-top md-no-margin-top" type="submit">Filter</button>
+        </form>
+
+        {% for event in events %}
+        <br>
+            <div class="container">
+                <!-- start event block -->
+                <div class="row align-items-center event-block no-gutters margin-40px-bottom">
+                    <div class="col-lg-5 col-sm-12">
+                        <div class="position-relative">
+                            <a href="{% url 'blogApp:event_detail' slug=event.slug %}"><img src="{{ event.photo.url }}" alt="" /></a>
+                            <div class="events-date">
+                                <div class="font-size28">{{ event.datetime|date:"d" }}</div>
+                                <div class="font-size14">{{ event.datetime|date:"b" }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-sm-12">
+                        <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
+                            <h5 class="margin-15px-bottom md-margin-10px-bottom font-size22 md-font-size20 xs-font-size18 font-weight-500"><a href="{% url 'blogApp:event_detail' slug=event.slug %}" class="text-theme-color">{{ event.title }}</a></h5>
+                            <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
+                                <li><i class="far fa-clock margin-10px-right"></i> {{ event.datetime|date:"H" }}:{{ event.datetime|date:"i" }} - 04:30 PM</li>
+                                <li><i class="fas fa-user margin-5px-right"></i> Speaker : {{ event.organizer }}</li>
+                            </ul>
+                            <p><a href="{% url 'blogApp:event_detail' slug=event.slug %}">{{ event.description|truncatewords:15 }}</a></p>
+                            <a class="butn small margin-10px-top md-no-margin-top" href="{% url 'blogApp:event_detail' slug=event.slug %}">Read More <i class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- end event block -->
+            </div>
+        <!-- end event section -->
     {% endfor %}
-  </body>
-</html>
+    </div>
+  </section>
+{% endblock %}

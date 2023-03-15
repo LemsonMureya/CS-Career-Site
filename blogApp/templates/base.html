@@ -3,7 +3,6 @@
 <html lang="en">
 
 <head>
-
     <!-- metas -->
     <meta charset="utf-8">
     <meta name="author" content="Chitrakoot Web" />
@@ -30,6 +29,7 @@
 
     <!-- core style css -->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
 </head>
 
@@ -75,7 +75,7 @@
 
                                     <div class="navbar-header navbar-header-custom">
                                         <!-- start logo -->
-                                        <a href="index.html" class="navbar-brand"><img id="logo" src="{% static 'img/logos/logo.png' %}" alt="logo"></a>
+                                        <a href="{% url 'blogApp:index' %}" class="navbar-brand"><img id="logo" src="{% static 'img/logos/logo.png' %}" alt="logo"></a>
                                         <!-- end logo -->
                                     </div>
 
@@ -83,7 +83,7 @@
 
                                     <!-- start menu area -->
                                     <ul class="navbar-nav ml-auto" id="nav" style="display: none;">
-                                        <li><a href="#">Home</a>
+                                        <li><a href="{% url 'blogApp:index' %}">Home</a>
                                             <ul>
                                                 <li><a href="demo-1.html">Demo 01</a></li>
                                                 <li><a href="demo-2.html">Demo 02</a></li>
@@ -113,8 +113,13 @@
                                                 <li><a href="{% url 'blogApp:event_list' %}">Events</a></li>
                                                 <li><a href="teacher-details.html">Alumni</a></li>
                                                 <li><a href="faq.html">Newsletters</a></li>
-                                                <li><a href="#">Login</a></li>
-                                                <li><a href="#">Register</a></li>
+                                                {% if user.is_authenticated %}
+                                                    <li><a href="{% url 'profile' %}">Hello, {{ user.first_name.capitalize }}</a></li>
+                                                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                                                {% else %}
+                                                  <li><a href="{% url 'login' %}">Login</a></li>
+                                                  <li><a href="{% url 'register' %}">Register</a></li>
+                                                {% endif %}
                                                 <li><a href="#">Others</a>
                                                     <ul>
                                                         <li><a href="tables.html">Tables</a></li>
@@ -152,7 +157,7 @@
 
         </header>
         <!-- end header section -->
-
+        {% block content %}
         <!-- start slideshow-->
         <div class="container-fluid full-screen">
             <div class="row slider-fade">
@@ -202,8 +207,6 @@
                 <div class="row facility-block">
                     <div class="col-12">
                         <div class="owl-carousel owl-theme">
-
-
                             <div class="step bg-sky">
                                 <a href="#" class="text-center">
                                     <i class="ti-cloud-down"></i>
@@ -766,7 +769,7 @@
             </div>
         </section>
         <!-- end news section-->
-
+        {% endblock %}
         <!-- start footer section -->
         <footer class="border-top bg-white border-color-light-gray padding-70px-top">
             <div class="container">
@@ -783,7 +786,6 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-linkedin-in"></i></a></li>
                             </ul>
                         </div>
-
                     </div>
 
                     <div class="col-lg-4 col-md-6 sm-margin-30px-bottom">

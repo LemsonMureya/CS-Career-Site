@@ -20,12 +20,16 @@ from django.conf.urls.static import static
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
 
-# from blogApp.views import RegisterView
+from blogApp.views import RegisterView, ProfileView, EditProfileView, LoginView, LogoutView
 
 urlpatterns = [
     path('', include('blogApp.urls')),
     path('admin/', admin.site.urls),
-    # path('register/', RegisterView.as_view(), name='register'),
-    # path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
-    # path('logout/', LogoutView.as_view(next_page='demo1'), name='logout'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+    path('accounts/profile/', ProfileView.as_view(), name='profile'),
+    path('accounts/profile/edit/', EditProfileView.as_view(), name='edit_profile'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
