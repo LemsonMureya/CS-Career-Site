@@ -12,7 +12,35 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+#a view for displaying a list of events
+class EventListView(ListView):
+    model = Event
+    template_name = 'event_list.html'
+    context_object_name = 'events'
+    paginate_by = 10
 
+    #methods for filtering events by category
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category = self.request.GET.get('category')
+        if category:
+            queryset = queryset.filter(event_type=category)
+        return queryset
+
+    #method for getting data regarding categories and sending it to event_list.html template
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_choices'] = Event.TYPE_CHOICES
+        context['selected_category'] = self.request.GET.get('category')
+        return context
+
+#class view for displaying event details, utilizes slugs for generating urls that are user friendly
+class EventDetailView(DetailView):
+    model = Event
+    template_name = 'event_detail.html'
+    context_object_name = 'event'
+    slug_field = 'slug'
+    
 class SuccessView(TemplateView):
     template_name = 'success.html'
 
