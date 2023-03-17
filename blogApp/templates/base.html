@@ -1,4 +1,6 @@
 {% load static %}
+{% load custom_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -109,7 +111,7 @@
                                         </li>
                                         <li><a href="#">Pages</a>
                                             <ul>
-                                                <li><a href="gallery.html">Project Gallery</a></li>
+                                                <li><a href="{% url 'blogApp:project_list' %}">Project Gallery</a></li>
                                                 <li><a href="{% url 'blogApp:event_list' %}">Events</a></li>
                                                 <li><a href="teacher-details.html">Alumni</a></li>
                                                 <li><a href="faq.html">Newsletters</a></li>
@@ -159,46 +161,17 @@
         <!-- end header section -->
         {% block content %}
         <!-- start slideshow-->
+        <!-- start slideshow-->
         <div class="container-fluid full-screen">
             <div class="row slider-fade">
                 <div class="owl-carousel owl-theme">
-                    <div class="text-center item bg-img" data-overlay-dark="6" data-background="{% static 'img/slider/slide1.jpg' %}">
-                        <div class="display-table height-100 position-relative caption">
-                            <div class="display-table-cell vertical-align-middle">
-                                <h1 class="text-white">CS Camels Career Hour</h1>
-                                <p class="text-white margin-40px-bottom md-margin-30px-bottom xs-margin-25px-bottom center-col">Many colleges and universities have designated mottos that represent the culture of that institution identify themselves in a few words.</p>
-                                <a href="javascript:void(0);" class="butn theme">
-                                    <span class="alt-font">Learn More</span><i class="fas fa-long-arrow-alt-right font-size16 sm-font-size14 margin-10px-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center item bg-img" data-overlay-dark="6" data-background="{% static 'img/slider/slide2.jpg' %}" >
-                        <div class="display-table height-100 position-relative caption">
-                            <div class="display-table-cell vertical-align-middle">
-                                <h1 class="text-white">Education For Better</h1>
-                                <p class="text-white margin-40px-bottom md-margin-30px-bottom xs-margin-25px-bottom center-col">Many colleges and universities have designated mottos that represent the culture of that institution identify themselves in a few words.</p>
-                                <a href="javascript:void(0);" class="butn medium theme">
-                                    <span class="alt-font">Learn More</span><i class="fas fa-long-arrow-alt-right font-size16 sm-font-size14 margin-10px-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center item bg-img" data-overlay-dark="6" data-background="{% static 'img/slider/slide3.jpg' %}">
-                        <div class="display-table height-100 position-relative caption">
-                            <div class="display-table-cell vertical-align-middle">
-                                <h1 class="text-white">Achieving Knowledge</h1>
-                                <p class="text-white margin-40px-bottom md-margin-30px-bottom xs-margin-25px-bottom center-col">Many colleges and universities have designated mottos that represent the culture of that institution identify themselves in a few words.</p>
-                                <a href="javascript:void(0);" class="butn medium theme">
-                                    <span class="alt-font">Learn More</span><i class="fas fa-long-arrow-alt-right font-size16 sm-font-size14 margin-10px-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
+                    {% latest_projects_slideshow count=3 %}
                 </div>
             </div>
         </div>
+        <!-- end slideshow-->
+
+
         <!-- end slideshow-->
 
         <!-- start facility section -->

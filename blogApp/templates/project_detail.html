@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% load static %}
+
+{% block content %}
+<!-- start page title section -->
+<section class="page-title-section bg-img cover-background" data-overlay-dark="7" data-background="{%static 'img/bg/codee.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>project Details</h1>
+            </div>
+            <div class="col-md-12">
+                <ul>
+                    <li><a href="{% url 'blogApp:index' %}">Home</a></li>
+                    <li><a href="{% url 'blogApp:project_list' %}">Projects</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end page title section -->
+
+<section>
+  <div class="container">
+    <div class="row">
+      <!--  start event left-->
+      <div class="col-lg-9 col-md-12 sm-margin-40px-bottom">
+          <div class="padding-30px-right md-padding-30px-right sm-no-padding-right">
+              <h1>{{ project.title }}</h1>
+              {% if project.photo %}
+                  <img src="{{ project.photo.url }}" alt="{{ project.title }}">
+              {% endif %}
+              <p>{{ project.description }}</p>
+              {% if project.collaborators %}
+                  <p>Collaborators: {{ project.collaborators }}</p>
+              {% endif %}
+              {% if project.url %}
+                  <p>Project URL: <a href="{{ project.url }}">{{ project.url }}</a></p>
+              {% endif %}
+              <p>Category: {{ project.category }}</p>
+          </div>
+          </div>
+        <!-- start event right -->
+           <div class="col-lg-3 col-md-12">
+           <div class="side-bar">
+               <div class="widget search" style="border: 1px solid #dee2e6;">
+                   <form method='post'>
+                       <input type="hidden" name="form-name" value="form 1" />
+                       <input type="search" name="search" placeholder="Type here ...">
+                       <button type="submit" class="butn theme"><i class="fa fa-search" aria-hidden="true"></i></button>
+                   </form>
+               </div>
+                   {% show_other_projects project.id %}
+                   {% if other_projects %}
+                   {% for project in other_projects %}
+                   <div class="single-post margin-25px-bottom">
+                       <div class="recent_img">
+                           {% if project.photo %}
+                           <a href="{% url 'blogApp:project_detail' pk=project.pk %}"><img src="{{ project.photo.url }}" alt="{{ project.title }}" /></a>
+                           {% endif %}
+                       </div>
+                       <div class="post_title">
+                           <a href="{% url 'blogApp:project_detail' pk=project.pk %}">{{ project.title.capitalize }}</a>
+                           <p class="margin-5px-top font-size13 no-margin-bottom">
+                               <i class="fas fa-calendar-alt text-hightlight-color padding-10px-right"></i>{{ project.start_date|date:"jS F Y" }}
+                           </p>
+                       </div>
+                   </div>
+                   {% endfor %}
+                   {% endif %}
+           </div>
+       </div>
+       <!-- end event right -->
+       </div>
+  </div>
+</section>
+{% endblock %}

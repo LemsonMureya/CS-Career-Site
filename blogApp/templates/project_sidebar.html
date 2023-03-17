@@ -1,0 +1,21 @@
+<div class="widget">
+  <h4 class="widget-title">Other Projects</h4>
+  <ul>
+    {% for other_project in other_projects %}
+    <!-- <li><a href="{% url 'blogApp:project_detail' pk=other_project.pk %}">{{ other_project.title }}</a></li> -->
+    <div class="single-post margin-25px-bottom">
+        <div class="recent_img">
+            <a href="{% url 'blogApp:project_detail' pk=other_project.pk %}" title="">
+                <img src="{{ other_project.photo.url }}" alt="{{ other_project.title }}" />
+            </a>
+        </div>
+        <div class="post_title">
+            <a href="{% url 'blogApp:project_detail' pk=other_project.pk %}">{{ other_project.title|truncatewords:5 }}</a>
+            <p class="margin-5px-top font-size13 no-margin-bottom">
+                <i class="fas fa-calendar-alt text-hightlight-color padding-10px-right"></i>{{ other_project.start_date|date:"d M" }}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+  </ul>
+</div>

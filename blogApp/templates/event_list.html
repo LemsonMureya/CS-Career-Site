@@ -12,8 +12,8 @@
             </div>
             <div class="col-md-12">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="javascript:void(0)">Events</a></li>
+                    <li><a href="{% url 'blogApp:index' %}">Home</a></li>
+                    <li><a href="{% url 'blogApp:event_list' %}">Events</a></li>
                 </ul>
             </div>
         </div>
@@ -23,16 +23,18 @@
 <!-- end page title section -->
   <section style="background-color: #eee;">
         <div class="container">
+          <!-- start links -->
           <form method="get">
-          <label for="category">Filter by category:</label>
-            <select name="category" id="category">
-              <option value="">All categories</option>
-              {% for choice in category_choices %}
-              <option value="{{ choice.0 }}" {% if choice.0 == selected_category %}selected{% endif %}>{{ choice.1 }}</option>
-              {% endfor %}
-            </select>
-            <button class="butn small margin-10px-top md-no-margin-top" type="submit">Filter</button>
-        </form>
+           <label for="category">Filter by category:</label>
+             <select name="category" id="category">
+               <option value="">All categories</option>
+               {% for choice in category_choices %}
+               <option value="{{ choice.0 }}" {% if choice.0 == selected_category %}selected{% endif %}>{{ choice.1 }}</option>
+               {% endfor %}
+             </select>
+             <button class="butn small margin-10px-top md-no-margin-top" type="submit">Filter</button>
+         </form>
+          <!-- end links -->
 
         {% for event in events %}
         <br>

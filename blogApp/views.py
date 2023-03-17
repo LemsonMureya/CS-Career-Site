@@ -2,7 +2,7 @@ from django.views import View
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView
-from .models import Event, CustomUser
+from .models import Event, CustomUser,Project
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomUserForm
@@ -12,6 +12,30 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
+class ProjectListView(ListView):
+    model = Project
+    template_name = 'project_list.html'
+    context_object_name = 'projects'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Project.CATEGORY_CHOICES
+        context['projects'] = Project.objects.all() 
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category = self.request.GET.get('category', None)
+        if category:
+            queryset = queryset.filter(category=category)
+        return queryset
+
+class ProjectDetailView(DetailView):
+    model = Project
+    template_name = 'project_detail.html'
+    context_object_name = 'project'
+
 #a view for displaying a list of events
 class EventListView(ListView):
     model = Event
@@ -19,7 +43,6 @@ class EventListView(ListView):
     context_object_name = 'events'
     paginate_by = 10
 
-    #methods for filtering events by category
     def get_queryset(self):
         queryset = super().get_queryset()
         category = self.request.GET.get('category')
@@ -27,11 +50,10 @@ class EventListView(ListView):
             queryset = queryset.filter(event_type=category)
         return queryset
 
-    #method for getting data regarding categories and sending it to event_list.html template
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_choices'] = Event.TYPE_CHOICES
-        context['selected_category'] = self.request.GET.get('category')
+        context['selected_category'] = self.request.GET.get('category', '')
         return context
 
 #class view for displaying event details, utilizes slugs for generating urls that are user friendly
@@ -40,7 +62,7 @@ class EventDetailView(DetailView):
     template_name = 'event_detail.html'
     context_object_name = 'event'
     slug_field = 'slug'
-    
+
 class SuccessView(TemplateView):
     template_name = 'success.html'
 
