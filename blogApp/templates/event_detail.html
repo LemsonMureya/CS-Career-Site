@@ -4,17 +4,31 @@
 
 {% block content %}
 <!-- start page title section -->
-<section class="page-title-section bg-img cover-background" data-overlay-dark="7" data-background="{%static 'img/bg/codee.jpg' %}">
+<style>
+  .blog-header {
+      padding: 110px 0;
+      background-image: url('{% static 'img/bg/007.png' %}');
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+      color: white;
+  }
+    .edit-delete-buttons {
+        margin-top: 20px;
+    }
+
+    .edit-delete-buttons .btn {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+</style>
+<section class="page-title-section blog-header">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Event Details</h1>
-            </div>
-            <div class="col-md-12">
-                <ul>
-                    <li><a href="{% url 'blogApp:index' %}">Home</a></li>
-                    <li><a href="{% url 'blogApp:event_list' %}">Events</a></li>
-                </ul>
+                <h1></h1>
             </div>
         </div>
     </div>
@@ -63,6 +77,12 @@
                         <h4 class="margin-15px-bottom font-weight-500">Event Details</h4>
                         <p>{{ event.description }}
                         </p>
+                        {% if request.user.is_authenticated and request.user == event.owner %}
+                        <div class="edit-delete-buttons">
+                            <a href="{% url 'blogApp:edit_event' slug=event.slug %}" class="btn btn-success"> <i class="fas fa-edit"></i> Edit Event</a>
+                            <a href="{% url 'blogApp:delete_event' slug=event.slug %}" class="btn btn-danger">Delete Event</a>
+                        </div>
+                      {% endif %}
                     </div>
                 </div>
                 <!--  end event left-->

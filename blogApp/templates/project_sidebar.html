@@ -11,9 +11,6 @@
         </div>
         <div class="post_title">
             <a href="{% url 'blogApp:project_detail' pk=other_project.pk %}">{{ other_project.title|truncatewords:5 }}</a>
-            <p class="margin-5px-top font-size13 no-margin-bottom">
-                <i class="fas fa-calendar-alt text-hightlight-color padding-10px-right"></i>{{ other_project.start_date|date:"d M" }}
-            </p>
         </div>
     </div>
     {% endfor %}

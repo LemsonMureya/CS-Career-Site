@@ -2,19 +2,32 @@
 {% load static %}
 
 {% block content %}
-<!-- start page title section -->
 
-<section class="page-title-section bg-img cover-background" data-overlay-dark="7" data-background="{%static 'img/bg/prof1.jpg' %}">
+<style>
+    .event-header {
+        padding: 110px 0;
+        background-image: url('{% static 'img/bg/001.png' %}');
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        color: white;
+    }
+    .filtering a {
+        margin-right: 10px; /* Adjust the space between buttons */
+        color: #000000; /* Change the text color */
+        text-decoration: none; /* Remove underline from links */
+    }
+
+    .filtering a.active {
+        font-weight: bold; /* Optional: Make the active category bold */
+    }
+</style>
+
+<section class="page-title-section event-header">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <h1>Events</h1>
-            </div>
-            <div class="col-md-12">
-                <ul>
-                    <li><a href="{% url 'blogApp:index' %}">Home</a></li>
-                    <li><a href="{% url 'blogApp:event_list' %}">Events</a></li>
-                </ul>
             </div>
         </div>
     </div>
@@ -23,19 +36,21 @@
 <!-- end page title section -->
   <section style="background-color: #eee;">
         <div class="container">
-          <!-- start links -->
-          <form method="get">
-           <label for="category">Filter by category:</label>
-             <select name="category" id="category">
-               <option value="">All categories</option>
-               {% for choice in category_choices %}
-               <option value="{{ choice.0 }}" {% if choice.0 == selected_category %}selected{% endif %}>{{ choice.1 }}</option>
-               {% endfor %}
-             </select>
-             <button class="butn small margin-10px-top md-no-margin-top" type="submit">Filter</button>
-         </form>
-          <!-- end links -->
-
+          <!-- Button-like Filters -->
+          <div class="container">
+          <div class="row">
+              <div class="filtering col-sm-12 text-center">
+                  <a href="{% url 'blogApp:event_list' %}" class="{% if not selected_category %} {% endif %}">
+                      <span>View All</span>
+                  </a>
+                  {% for choice in category_choices %}
+                  <a href="?category={{ choice.0 }}" class="{% if selected_category == choice.0 %}active{% endif %}">
+                      <span>{{ choice.1 }}</span>
+                  </a>
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
         {% for event in events %}
         <br>
             <div class="container">
@@ -62,10 +77,40 @@
                         </div>
                     </div>
                 </div>
-                <!-- end event block -->
             </div>
-        <!-- end event section -->
+    {% empty %}
+      <div class="container">
+        <p>No events</p>
+      </div>
     {% endfor %}
+
+          <!-- Pagination -->
+      <div class="row">
+        <div class="col-sm-12">
+            <!-- Start Pager -->
+            <div class="text-center margin-60px-top md-margin-50px-top sm-margin-40px-top">
+                <div class="pagination text-small text-uppercase text-extra-dark-gray">
+                    <ul>
+                        {% if events.has_previous %}
+                        <li><a href="?page={{ events.previous_page_number }}"><i class="fas fa-long-arrow-alt-left margin-5px-right xs-display-none"></i> Prev</a></li>
+                        {% endif %}
+
+                        {% for i in events.paginator.page_range %}
+                            {% if events.number == i %}
+                            <li class="active"><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if events.has_next %}
+                        <li><a href="?page={{ events.next_page_number }}">Next <i class="fas fa-long-arrow-alt-right margin-5px-left xs-display-none"></i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </div>
     </div>
   </section>
 {% endblock %}

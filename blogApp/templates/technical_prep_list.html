@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-title-section bg-img cover-background" data-overlay-dark="7" data-background="{%static 'img/bg/prof1.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Resources</h1>
+                </div>
+                <div class="col-md-12">
+                    <ul>
+                        <li><a href="{% url 'blogApp:index' %}">Home</a></li>
+                        <li><a href="{% url 'blogApp:blog_list' %}">Resources</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</section>
+
+<section class="blog-list-section">
+    <div class="container">
+        <div class="row">
+            {% for post in blog_posts %}
+            <div class="col-md-6 col-lg-4">
+                <div class="blog-post-card">
+                    {% if post.image %}
+                    <div class="blog-post-image">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                    </div>
+                    {% endif %}
+                    <div class="blog-post-content">
+                        <h3><a href="{% url 'blogApp:blog_detail' post.slug %}">{{ post.title }}</a></h3>
+                        <p>{{ post.description|truncatewords:30 }}</p>
+                        <div class="blog-post-meta">
+                            <span>Posted by {{ post.author.first_name }} on {{ post.created_date|date:"M d, Y" }}</span>
+                            <a href="{% url 'blogApp:blog_detail' post.slug %}" class="read-more">Read more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p>No blog posts available.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

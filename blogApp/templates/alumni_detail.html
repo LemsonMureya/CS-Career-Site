@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .alumni-header {
+        padding: 80px 0;
+        background-image: url('{% static 'img/bg/pro.jpg' %}');
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        color: white;
+    }
+
+    .alumni-content {
+        padding: 40px 0;
+    }
+
+    .profile-section {
+        text-align: center;
+    }
+
+    .profile-pic {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+    }
+
+    .social-media {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .social-link {
+        font-size: 24px;
+        color: #59c17a;
+        margin: 0 10px;
+    }
+
+    .connect-btn {
+        padding: 10px 20px;
+        background-color: #59c17a;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .profile-details {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        margin-bottom: 30px;
+    }
+
+    .contributions {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        margin-bottom: 30px;
+    }
+
+    .contribution-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .contribution-title {
+        margin-left: 10px;
+    }
+
+    .contribution-date {
+        font-size: 14px;
+        color: #666;
+        margin-left: auto;
+    }
+
+    .contribution-thumbnail {
+        width: 100px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .contact-form {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        margin-top: 50px;
+    }
+
+    .contact-form input, .contact-form textarea {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .contact-form button {
+        padding: 10px 20px;
+        background-color: #59c17a;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+
+<section class="alumni-header">
+    <div class="container">
+    </div>
+</section>
+
+<section class="alumni-content bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <!-- Profile Picture and Basic Info -->
+            <div class="col-md-4">
+                <div class="profile-section">
+                    <img class="profile-pic" src="{{ alumnus.photo.url }}" alt="{{ alumnus.first_name }} {{ alumnus.last_name }}">
+                    <div class="social-media">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                    <button class="connect-btn">Connect</button>
+                </div>
+            </div>
+
+            <!-- Detailed Info and Contributions -->
+            <div class="col-md-8">
+                <div class="profile-details">
+                    <h2>{{ alumnus.first_name }} {{ alumnus.last_name }}</h2>
+                    <p class="position">{{ alumnus.position }} at {{ alumnus.company }}</p>
+                    <p class="bio">{{ alumnus.bio }}</p>
+                    <div class="detailed-info">
+                        <p>Major/Minor: {{ alumnus.major_minor }}</p>
+                        <p>Class Year: {{ alumnus.class_year }}</p>
+                    </div>
+                </div>
+                <div class="contributions">
+                    <h5>Past Contributions</h5>
+                    <div class="contribution-item">
+                        <img class="contribution-thumbnail" src="{% static 'img/bg/prof1.jpg' %}" alt="Project Thumbnail">
+                        <div>
+                            <div class="contribution-date padding-10px-left"><a href="#">Project Title Here</a></div>
+                            <div class="contribution-date padding-10px-left">Jan 20, 2023</div>
+                        </div>
+                    </div>
+                    <!-- More contribution items -->
+                </div>
+                <div class="contact-form">
+                    <h5>Send a Message to {{ alumnus.first_name }}</h5>
+                    <form>
+                        <input type="text" placeholder="Your Name">
+                        <input type="email" placeholder="Your Email">
+                        <textarea placeholder="Your Message"></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

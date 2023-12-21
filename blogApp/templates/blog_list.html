@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .blog-header {
+      padding: 110px 0;
+      background-image: url('{% static 'img/bg/012.png' %}');
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+      color: white;
+  }
+</style>
+<section class="page-title-section blog-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Resources</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            {% for post in blog_posts %}
+            <div class="col-lg-4 col-md-12 margin-30px-bottom">
+                <div class="blog-block">
+                    <div>
+                        {% if post.image %}
+                      <a href="{% url 'blogApp:blog_detail' post.slug %}"><img src="{{ post.image.url }}" alt="{{ post.title }}" /></a>  
+                        {% else %}
+                        <img src="{% static 'img/default-blog.jpg' %}" alt="{{ post.title }}" /> <!-- Default image -->
+                        {% endif %}
+                    </div>
+                    <div class="blog-content">
+                        <a href="{% url 'blogApp:blog_detail' post.slug %}" class="blog-text font-size16 xs-font-size14 font-weight-500">{{ post.category }}</a>
+                        <h4 class="font-size20 md-font-size18 font-weight-500 line-height-30 margin-15px-tb">
+                            <a href="{% url 'blogApp:blog_detail' post.slug %}" class="text-theme-color">{{ post.title|truncatechars:50 }}</a>
+                        </h4>
+                        <p class="no-margin-bottom">{{ post.created_date|date:"d F, Y" }} - by <a href="javascript:void(0)" class="blog-text font-weight-500">{{ post.author.first_name }}</a></p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p>No blog posts available.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="text-center margin-60px-top md-margin-50px-top sm-margin-40px-top">
+                    <div class="pagination text-small text-uppercase text-extra-dark-gray">
+                        <ul>
+                            {% if blog_posts.has_previous %}
+                            <li><a href="?page={{ blog_posts.previous_page_number }}"><i class="fas fa-long-arrow-alt-left margin-5px-right xs-display-none"></i> Prev</a></li>
+                            {% endif %}
+                            {% for num in blog_posts.paginator.page_range %}
+                            {% if blog_posts.number == num %}
+                            <li class="active"><a href="?page={{ num }}">{{ num }}</a></li>
+                            {% else %}
+                            <li><a href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if blog_posts.has_next %}
+                            <li><a href="?page={{ blog_posts.next_page_number }}">Next <i class="fas fa-long-arrow-alt-right margin-5px-left xs-display-none"></i></a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Pagination -->
+    </div>
+</section>
+{% endblock %}
