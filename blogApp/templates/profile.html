@@ -2,21 +2,41 @@
 {% load static%}
 
 {% block content %}
-  <section class="page-title-section bg-img cover-background" data-overlay-dark="7" data-background= "{{ user.photo.url }}">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-12">
-              <h1>Profile</h1>
-          </div>
-          <div class="col-md-12">
-              <ul>
-                  <li><a href="{% url 'blogApp:index' %}"> Home</a></li>
-                  <li><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
-              </ul>
-          </div>
-      </div>
-  </div>
-  </section>
+<style>
+  .profile-pic {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .alumni-header {
+      padding: 60px 0;
+      background-image: url('{% static 'img/bg/prof.jpg' %}');
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+      color: white;
+  }
+  .apply-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 10px;
+      border-radius: 5px;
+      text-decoration: none;
+  }
+
+</style>
+<section class="page-title-section alumni-header">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        </div>
+    </div>
+</div>
+</section>
+
   <!-- end page title section -->
   <section style="background-color: #eee;">
     <div class="container py-5">
@@ -26,25 +46,25 @@
             <div class="card-body text-center">
               <div class="d-flex justify-content-center mb-4">
                 <img src="{{ user.photo.url }}" alt="{{ user.first_name }}'s photo"
-                  class="rounded-circle img-fluid" style="height: 150px; width: 150px;">
+                  class="profile-pic">
               </div>
 
                 <div>
-                <h5 class="my-3" style="display: inline-block;">{{user.first_name.capitalize}} {{user.last_name.capitalize}}</h5>
+                <h6 class="my-3" style="display: inline-block;">{{user.first_name.capitalize}} {{user.last_name.capitalize}}</h6>
                 {% if user.verified %}
-                  <span id="boot-icon" class="bi bi-patch-check" style="font-size: 1.2rem; color: rgb(0, 0, 255);"></span>
+                  <i class="bi bi-patch-check-fill text-success" style="font-size: 1.2rem;"></i>
                 {% endif %}
               </div>
               <p class="text-muted mb-1">{{ user.position.capitalize }}</p>
               <p class="text-muted mb-4">{{user.company.capitalize}}</p>
               <div class="d-flex justify-content-center mb-2">
-                <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+                <a href="{% url 'edit_profile' %}" class="apply-button">Edit Profile</a>
               </div>
             </div>
           </div>
         </div>
         <div class="col-lg-8">
-          <div class="card mb-4 h-100" style="border-radius: 15px;">
+          <div class="padding-10px-left card mb-4 h-100" style="border-radius: 15px;">
             <div class="card-body d-flex flex-column">
               <div class="row">
                 <div class="col-sm-3">

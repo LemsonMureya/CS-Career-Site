@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .blog-header {
+        padding: 80px 0;
+        background-image: url('{% static 'img/bg/009.png' %}');
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        color: white;
+    }
+
+    .confirm-delete {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .confirm-delete h2 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 24px;
+    }
+
+    .confirm-delete button,
+    .confirm-delete a {
+        margin: 10px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .confirm-delete button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+    }
+
+    .confirm-delete a {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .confirm-delete button:hover {
+        background-color: #c82333;
+    }
+
+    .confirm-delete a:hover {
+        background-color: #5a6268;
+    }
+</style>
+
+<section class="page-title-section blog-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1></h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="confirm-delete">
+    <h2>Are you sure you want to delete "{{ object.title }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn">Yes, Delete</button>
+        <a href="{% url 'blogApp:project_detail' pk=object.pk %}" class="btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}

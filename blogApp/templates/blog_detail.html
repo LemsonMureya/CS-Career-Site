@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .blog-header {
+      padding: 110px 0;
+      background-image: url('{% static 'img/bg/009.png' %}');
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+      color: white;
+  }
+  .tag {
+    display: inline-block;
+    margin: 0 5px 5px 0;
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+    font-size: 0.9em;
+    color: #555;
+    text-decoration: none;
+  }
+
+  /* Recent posts thumbnails */
+  .recent-post-thumbnail {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border-radius: 3px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+
+  .recent-post-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  /* Post actions styling */
+  .post-actions {
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
+  }
+
+  .post-actions .btn {
+    margin-right: 10px;
+    font-size: 0.9em;
+  }
+    /* Recent Posts Widget Styling */
+  .widget.recent-posts ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .recent-post-item {
+    margin-bottom: 15px;
+  }
+
+  .recent-post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .recent-post-card {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .recent-post-thumbnail {
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .recent-post-info {
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  .recent-post-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+</style>
+<section class="page-title-section blog-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1></h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Start Blog Post Section -->
+<section class="blogs">
+    <div class="container">
+        <div class="row">
+            <!-- Start Blog Left -->
+            <div class="col-lg-9 col-md-12 padding-30px-right sm-padding-15px-right sm-margin-50px-bottom">
+                <div class="posts">
+                    <!-- Start Post -->
+                    <div class="post">
+                        <div class="post-meta">
+                            <div class="post-title">
+                                <h5>{{ blog_post.title }}</h5>
+                            </div>
+                            <ul class="meta">
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <i class="fa fa-user"></i> {{ blog_post.author.first_name }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <i class="fas fa-calendar-alt"></i> {{ blog_post.created_date|date:"d M, Y" }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <i class="fa fa-tags"></i> {{ blog_post.category }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        {% if blog_post.image %}
+                        <div class="post-img margin-30px-bottom">
+                            <a href="javascript:void(0);" class="width-100">
+                                <img src="{{ blog_post.image.url }}" alt="{{ blog_post.title }}">
+                            </a>
+                        </div>
+                        {% endif %}
+                        <!-- Tags for the blog post -->
+                        <div class="blog-tags">
+                          {% for tag in blog_post.tags.all %}
+                          <a href="{% url 'blogApp:tag_list' tag.name %}" class="tag">{{ tag.name }}</a>
+                          {% endfor %}
+                        </div>
+                        <div class="content">
+                            <div class="post-cont">
+                                {{ blog_post.description|safe }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Post -->
+
+                    <!-- Post actions for edit and delete -->
+                    <div class="post-actions">
+                      {% if request.user == blog_post.author or request.user.is_staff %}
+                      <a href="{% url 'blogApp:edit_blog_post' blog_post.slug %}" class="btn btn-success">
+                        <i class="fas fa-edit"></i> Edit Post
+                      </a>
+                      <a href="{% url 'blogApp:delete_blog_post' blog_post.slug %}" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Delete Post
+                      </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                  </div>
+            <!-- End Blog Left -->
+
+            <div class="col-lg-3 col-md-12">
+              <div class="side-bar">
+
+                <!-- Search Widget -->
+                <div class="widget search">
+                  <form action="{% url 'blogApp:blog_search' %}" method="get">
+                        <input type="search" name="q" placeholder="Type here...">
+                        <button type="submit" class="butn theme"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+              <!-- Recent Posts -->
+              <div class="recent-posts">
+                <div class="widget-title">
+                  <h6>Recent Posts</h6>
+                </div>
+                <ul>
+                  {% for post in recent_posts %}
+                  <li class="recent-post-item">
+                    <a href="{% url 'blogApp:blog_detail' post.slug %}" class="recent-post-link">
+                      <div class="recent-post-card">
+                        {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="recent-post-thumbnail">
+                        {% else %}
+                        <img src="{% static 'img/default-thumbnail.jpg' %}" alt="Default Thumbnail" class="recent-post-thumbnail">
+                        {% endif %}
+                        <div class="recent-post-info">
+                          <span class="recent-post-title">{{ post.title }}</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <!-- Categories -->
+              <div class="widget">
+                  <div class="widget-title">
+                      <h6>Categories</h6>
+                  </div>
+                  <ul>
+                      {% for cat in categories %}
+                      <li><a href="{% url 'blogApp:category_list' cat.0 %}">{{ cat.1 }}</a></li>
+                      {% endfor %}
+                  </ul>
+              </div>
+
+              <!-- Tags -->
+              <div class="widget">
+                  <div class="widget-title">
+                      <h6>Tags</h6>
+                  </div>
+                  <ul>
+                      {% for tag in tags %}
+                      <li><a href="{% url 'blogApp:tag_list' tag.name %}">{{ tag.name }}</a></li>
+                      {% endfor %}
+                  </ul>
+              </div>
+          </div>
+          <!-- End Blog Right -->
+          </div>
+        </div>
+    </div>
+</section>
+<!-- End Blog Post Section -->
+{% endblock %}

@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% load static %}
+
+{% block content %}
+
+<style>
+  .blog-header {
+      padding: 60px 0;
+      background-image: url('{% static 'img/bg/012.png' %}');
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+      color: white;
+  }
+  .opportunity-detail-section {
+      padding: 30px 0;
+  }
+
+  .opportunity-info {
+      padding: 20px;
+  }
+
+  .opportunity-info h3, h6 {
+      color: #333;
+      margin-bottom: 15px;
+  }
+
+  .opportunity-info p, .opportunity-info h4 {
+      color: #666;
+      margin-bottom: 10px;
+  }
+
+  .opportunity-info img {
+      max-width: 100px;
+      margin-top: 10px;
+  }
+
+  .apply-button a {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+  }
+
+  .apply-button a:hover {
+      background-color: #45a049;
+  }
+
+  .btn-edit, .btn-delete {
+      margin-top: 20px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+
+  .btn-edit {
+      background-color: #007bff;
+      color: white;
+  }
+
+  .btn-delete {
+      background-color: #dc3545;
+      color: white;
+  }
+
+  .icon {
+      color: #777;
+      margin-right: 5px;
+  }
+  .sidebar-image {
+    width: 120px;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+}
+</style>
+<section class="page-title-section blog-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1></h1>
+            </div>
+        </div>
+    </div>
+</section>
+ <!-- end page title section -->
+ <section class="top-detail no-padding-bottom">
+     <div class="container position-relative z-index-9">
+         <div class="row no-gutters">
+             <div class="col-lg-3 col-sm-6">
+                 <div class="course-details-single padding-25px-tb xs-padding-20px-tb padding-45px-lr md-padding-25px-lr">
+                     <div class="item author d-flex align-items-center">
+                         <div class="thumb">
+                             <a href="javascript:void(0)">
+                               {% if opportunity.owner.photo %}
+                                 <img src="{{ opportunity.owner.photo.url }}" alt="{{ opportunity.owner.first_name }}'s photo"/>
+                               {% else %}
+                                 <img src="{% static 'img/courses/courses-author.jpg' %}" alt="Posted By" />
+                             </a>
+                             {% endif %}
+                         </div>
+                         <div class="desc">
+                             <h4 class="font-size15 font-weight-400 text-white">Posted By</h4>
+                             <a href="javascript:void(0)" class="font-size17 font-weight-600 text-white">
+                                {{ opportunity.owner.first_name|title }}
+                            </a>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-sm-6">
+                 <div class="course-details-single d-flex padding-25px-tb padding-45px-lr md-padding-25px-lr">
+                     <div class="course-details-icon">
+                         <i class="ti-time"></i>
+                     </div>
+                     <div class="course-details-content">
+                         <span class="item-top-title text-white font-size16">Posted</span>
+                         <h6 class="margin-5px-bottom font-size17 xs-font-size16 text-white font-weight-600">
+                              {{ opportunity.created_date|date:"Y-m-d" }}
+                         </h6>
+                     </div>
+                 </div>
+             </div>
+             {% if opportunity.salary_min and opportunity.salary_max %}
+              <div class="col-lg-3 col-sm-6">
+                  <div class="course-details-single d-flex padding-25px-tb padding-45px-lr md-padding-25px-lr">
+                      <div class="course-details-icon">
+                          <i class="ti-money"></i>
+                      </div>
+                      <div class="course-details-content">
+                          <span class="item-top-title text-white font-size16">Salary</span>
+                          <h6 class="margin-5px-bottom font-size17 xs-font-size16 text-white font-weight-600">
+                              ${{ opportunity.salary_min }} - ${{ opportunity.salary_max }}
+                          </h6>
+                      </div>
+                  </div>
+              </div>
+          {% elif opportunity.salary_min %}
+              <div class="col-lg-3 col-sm-6">
+                  <div class="course-details-single d-flex padding-25px-tb padding-45px-lr md-padding-25px-lr">
+                      <div class="course-details-icon">
+                          <i class="ti-money"></i>
+                      </div>
+                      <div class="course-details-content">
+                          <span class="item-top-title text-white font-size16">Salary</span>
+                          <h6 class="margin-5px-bottom font-size17 xs-font-size16 text-white font-weight-600">
+                              From ${{ opportunity.salary_min }}
+                          </h6>
+                      </div>
+                  </div>
+              </div>
+          {% elif opportunity.salary_max %}
+              <div class="col-lg-3 col-sm-6">
+                  <div class="course-details-single d-flex padding-25px-tb padding-45px-lr md-padding-25px-lr">
+                      <div class="course-details-icon">
+                          <i class="ti-money"></i>
+                      </div>
+                      <div class="course-details-content">
+                          <span class="item-top-title text-white font-size16">Salary</span>
+                          <h6 class="margin-5px-bottom font-size17 xs-font-size16 text-white font-weight-600">
+                              Up to ${{ opportunity.salary_max }}
+                          </h6>
+                      </div>
+                  </div>
+              </div>
+          {% else %}
+              <div class="col-lg-3 col-sm-6">
+                  <div class="course-details-single d-flex padding-25px-tb padding-45px-lr md-padding-25px-lr">
+                      <div class="course-details-icon">
+                          <i class="ti-money"></i>
+                      </div>
+                      <div class="course-details-content">
+                          <span class="item-top-title text-white font-size16">Salary</span>
+                          <h6 class="margin-5px-bottom font-size17 xs-font-size16 text-white font-weight-600">
+                              Not specified
+                          </h6>
+                      </div>
+                  </div>
+              </div>
+          {% endif %}
+
+             <div class="col-lg-3 col-sm-6">
+                 <div class="course-details-single d-flex padding-25px-tb padding-45px-lr md-padding-25px-lr">
+                     <div class="course-details-icon">
+                         <i class="ti-user"></i>
+                     </div>
+                     <div class="course-details-content">
+                         <span class="item-top-title text-white font-size16">Opportunity Type</span>
+                         <h6 class="margin-5px-bottom font-size17 xs-font-size16 text-white font-weight-600">
+                             {{ opportunity.opportunity_type }}
+                         </h6>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </section>
+ <!-- end courses top-details section -->
+
+ <<!-- Opportunity Detail Section -->
+<section class="opportunity-detail-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+                <div class="opportunity-info">
+                    <h3>{{ opportunity.title }}</h3>
+                    <p><span class="icon ti-briefcase"></span>Company: {{ opportunity.company }}</p>
+                    <p><span class="icon ti-location-pin"></span>Location: {{ opportunity.location }}</p><br>
+                    <h6>Description</h6>
+                    <p><span class=""></span>{{ opportunity.description }}</p><br>
+                    {% if opportunity.deadline %}
+                        <p><span class="icon ti-calendar"></span>Deadline: {{ opportunity.deadline|date:"Y-m-d H:i" }}</p>
+                    {% endif %}
+                    <p>
+                      <span class="icon ti-check-box"></span>
+                      Remote:
+                      {% if opportunity.is_remote %}
+                          Yes
+                      {% else %}
+                          No
+                      {% endif %}
+                  </p>
+                    {% if opportunity.company_logo %}
+                        <img class="padding-20px-bottom" src="{{ opportunity.company_logo.url }}" alt="{{ opportunity.company }}'s logo"/>
+                    {% else %}
+                        <img class="padding-20px-bottom" src="{% static 'img/courses/company_logo_placeholder.jpg' %}" alt="company logo" />
+                    {% endif %}
+                    <p><span class="icon ti-timer"></span>Posted: {{ opportunity.created_date|timesince }} ago</p><br>
+                    <div class="apply-button margin-20px-bottom">
+                        <a href="{{ opportunity.link }}" target="_blank">Apply Now</a>
+                    </div>
+                    {% if request.user.is_authenticated and request.user == opportunity.owner %}
+                        <button class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>
+                    {% endif %}
+                </div>
+            </div>
+
+             <!--  start course right side-bar details -->
+             <div class="col-lg-3 col-md-12">
+                 <div class="side-bar">
+                     <div class="widget">
+                         <div class="widget-title">
+                             <h6>Recent Opportunities</h6>
+                         </div>
+                         {% for opp in recent_opportunities %}
+                         <div class="single-post margin-25px-bottom">
+                              <div class="recent_img">
+                                  <a href="{% url 'blogApp:opportunity_detail' opp.id %}">
+                                      {% if opp.company_logo %}
+                                          <img src="{{ opp.company_logo.url }}" alt="{{ opp.company }}" class="sidebar-image" />
+                                      {% else %}
+                                          <img src="{% static 'img/default-company.jpg' %}" alt="Default Logo" class="sidebar-image" />
+                                      {% endif %}
+                                  </a>
+                              </div>
+                              <div class="post_title">
+                                  <a href="{% url 'blogApp:opportunity_detail' opp.id %}">{{ opp.title|truncatechars:25 }}</a>
+                                  <div class="courses_price">
+                                      <div class="price"><span>{{ opp.company }}</span></div>
+                                  </div>
+                              </div>
+                          </div>
+                         {% empty %}
+                         <p>No recent opportunities available.</p>
+                         {% endfor %}
+                     </div>
+
+                     <div class="widget">
+                         <div class="widget-title">
+                             <h6>All Categories</h6>
+                         </div>
+
+                         <ul class="list-style2">
+                           <li><a href="{% url 'blogApp:internship_list' %}">Internship</a></li>
+                           <li><a href="{% url 'blogApp:job_list' %}">Jobs</a></li>
+                           <li><a href="{% url 'blogApp:research_list' %}">Research</a></li>
+                           <li><a href="{% url 'blogApp:volunteer_list' %}">Volunteer</a></li>
+                           <li><a href="{% url 'blogApp:other_list' %}">Other</a></li>
+                       </ul>
+                     </div>
+                 </div>
+             </div>
+             <!--  end course right side-bar details -->
+         </div>
+     </div>
+ </section>
+ <!-- end course-details section -->
+
+ {% endblock %}

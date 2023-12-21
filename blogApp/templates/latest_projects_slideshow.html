@@ -1,0 +1,16 @@
+
+<div class="owl-carousel owl-theme">
+    {% for project in latest_projects %}
+        <div class="text-center item bg-img" data-overlay-dark="6" data-background="{{ project.photo.url }}">
+            <div class="display-table height-100 position-relative caption">
+                <div class="display-table-cell vertical-align-middle">
+                    <h2 style="letter-spacing:1px;" class="text-white project-title">{{ project.title }}</h2>
+                    <p class="text-white project-description margin-40px-bottom md-margin-30px-bottom xs-margin-25px-bottom center-col">{{ project.category }} By {{ project.owner|title }}</p>
+                    <a href="{% url 'blogApp:project_detail' pk=project.pk %}" class="butn theme">
+                        <span class="alt-font">Learn More</span><i class="fas fa-long-arrow-alt-right font-size16 sm-font-size14 margin-10px-left"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

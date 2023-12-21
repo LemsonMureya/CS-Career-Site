@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .alumni-photo {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+  }
+  .alumni-header {
+      padding: 120px 0;
+      background-image: url('{% static 'img/bg/prof.jpg' %}');
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+      color: white;
+  }
+
+</style>
+<section class="page-title-section alumni-header">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Alumni Profiles</h1>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Start Alumni Section -->
+<section class="bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 center-col margin-50px-bottom sm-margin-30px-bottom text-center">
+                <h3 class="font-weight-500 font-size32 md-font-size28 sm-font-size26 xs-font-size24 section-title">Our Alumni</h3>
+                <div class="title-border"><span class="lg"></span><span class="md"></span><span class="sm"></span></div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for alum in alumni %}
+            <div class="col-lg-4 col-md-6 margin-30px-bottom">
+                <div class="team-block">
+                    <div class="team-image">
+                      <a href="{% url 'blogApp:alumni_detail' alum.id %}">
+                          {% if alum.photo %}
+                          <img src="{{ alum.photo.url }}" alt="{{ alum.first_name }} {{ alum.last_name }}" class="alumni-photo" />
+                          {% else %}
+                          <img src="{% static 'img/default-alumni.jpg' %}" alt="Default Image" class="alumni-photo"/>
+                          {% endif %}
+                        </a>
+                    </div>
+                    <div class="team-info padding-20px-tb md-padding-15px-tb padding-5px-lr text-center">
+                        <a href="{% url 'blogApp:alumni_detail' alum.id %}"><h5 class="font-size20 sm-font-size18 text-theme-color margin-5px-bottom sm-no-margin-bottom">{{ alum.first_name }} {{ alum.last_name }}</h5></a>
+                        <div class="team-position">{{ alum.position }} at {{ alum.company }}</div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p>No alumni found.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+          <!-- Pagination -->
+          <div class="row">
+              <div class="col-sm-12">
+                  <!-- Start Pager -->
+                  <div class="text-center margin-60px-top md-margin-50px-top sm-margin-40px-top">
+                      <div class="pagination text-small text-uppercase text-extra-dark-gray">
+                          <ul>
+                              {% if alumni.has_previous %}
+                              <li><a href="?page={{ alumni.previous_page_number }}">« Prev</a></li>
+                              {% endif %}
+                              {% for i in alumni.paginator.page_range %}
+                              {% if alumni.number == i %}
+                              <li class="active"><a href="?page={{ i }}">{{ i }}</a></li>
+                              {% else %}
+                              <li><a href="?page={{ i }}">{{ i }}</a></li>
+                              {% endif %}
+                              {% endfor %}
+                              {% if alumni.has_next %}
+                              <li><a href="?page={{ alumni.next_page_number }}">Next »</a></li>
+                              {% endif %}
+                          </ul>
+                      </div>
+                  </div>
+                  <!-- End Pager -->
+              </div>
+          </div>
+    </div>
+</section>
+<!-- End Alumni Section -->
+{% endblock %}

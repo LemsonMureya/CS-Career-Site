@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
 from django import forms
-from .models import CustomUser
+from .models import CustomUser, BlogPost, Tag, Project, Event, Opportunity
 
 class CustomUserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -29,3 +29,42 @@ class CustomUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'email', 'bio', 'major_minor', 'position', 'company', 'class_year', 'role', 'photo']
+        #change to conn affiliation, surrent occupation insteda of position
+
+class BlogPostForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ['title', 'description', 'image', 'category', 'tags']
+
+    def __init__(self, *args, **kwargs):
+        super(BlogPostForm, self).__init__(*args, **kwargs)
+        self.fields['tags'].widget.attrs.update({'multiple': 'multiple'})
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['title', 'description', 'url', 'collaborators', 'photo', 'start_date', 'end_date', 'category']
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['title', 'description', 'event_type', 'organizer', 'location', 'datetime', 'link', 'photo']
+        widgets = {
+            'datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'event_type': forms.Select(choices=Event.TYPE_CHOICES)
+        }
+
+
+class OpportunityForm(forms.ModelForm):
+    class Meta:
+        model = Opportunity
+        fields = ['title', 'company', 'description', 'deadline', 'link', 'opportunity_type', 'location', 'salary_min', 'salary_max', 'company_logo', 'is_open', 'is_remote']
+
+        widgets = {
+            'deadline': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
